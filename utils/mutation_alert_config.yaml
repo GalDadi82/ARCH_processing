@@ -1,0 +1,40 @@
+# List of recipient email addresses to notify when a target mutation is found.
+recipients:
+  - galdadi@gmail.com
+
+# Each entry matches a mutation row if ALL of its specified fields are equal
+# (exact, case-sensitive string match). Provide any subset of:
+#   Gene.refGene, Selected.AA.change, CHR, POS, REF, ALT
+# A dict with only Gene.refGene matches any mutation in that gene.
+target_mutations:
+  - Gene.refGene: JAK2
+  - Gene.refGene: UBA1
+  - Gene.refGene: IDH1
+  - Gene.refGene: IDH2
+  - Gene.refGene: NPM1
+  - Gene.refGene: SF3B1
+  - Gene.refGene: BRAF
+
+# Alert if a sample's CALR type-1 (del52) VAF exceeds this threshold. Leave unset to skip this check.
+min_CALR_del52_VAF: 0.05
+
+# Alert if a sample's CALR type-2 (ins5) VAF exceeds this threshold. Leave unset to skip this check.
+min_CALR_ins5_VAF: 0.05
+
+# Donor identifier prefixes (3rd underscore-delimited token of Sample_Name,
+# e.g. "PBH13" from "AEX35_ARCH_PBH13_S148") considered "healthy" donors.
+healthy_donor_prefixes:
+  - PBH
+  - NE
+
+# Alert on ANY mutation (regardless of gene) with avg_VAF >= this threshold
+# found in a healthy donor (see healthy_donor_prefixes). Leave unset to skip this check.
+min_healthy_donor_VAF: 0.1
+
+smtp:
+  host: localhost
+  port: 25
+  use_tls: false
+  username: null
+  password: null
+  from_address: arch-alerts@localhost

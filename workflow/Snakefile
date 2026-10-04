@@ -1,0 +1,103 @@
+# ARCH processing pipeline -- Snakemake port of notebooks/arch_processing.ipynb.
+#
+# Stages, in the notebook's order:
+#   1. link per-sample job output into All_Samples, build the QC report, select samples
+#   2. ANNOVAR per sample, reformat, merge into one mutation table
+#   3. Blood-2023 filtering -> recurrence filtering -> VAF filter + manual exclusions
+#   4. CALR Type-1 (FASTQ) and Type-2 (BAM) detection, collected per run
+#   5. Denver normals cross-reference
+#   6. mutation alert email
+#
+# Usage:
+#   snakemake --profile workflow/profiles/lsf --config seq_run=NovaseqR132
+#
+# Useful intermediate targets: qc, annotate, mutations, calr, denver.
+
+from snakemake.utils import min_version
+
+min_version("7.25")
+
+
+configfile: os.path.join(workflow.basedir, "config", "config.yaml")
+
+
+include: "rules/common.smk"
+include: "rules/setup.smk"
+include: "rules/annotate.smk"
+include: "rules/filter.smk"
+include: "rules/calr.smk"
+include: "rules/denver.smk"
+include: "rules/alert.smk"
+
+
+wildcard_constraints:
+    # Sample names are directory names; keep them from swallowing path separators.
+    sample=r"[^/]+",
+
+
+# Cheap bookkeeping rules: run them on the submit host instead of paying queue latency.
+# Everything else -- notably the per-sample annovar and CALR rules -- becomes a cluster job.
+localrules:
+    all,
+    qc,
+    annotate,
+    mutations,
+    calr,
+    denver,
+    link_sample_dirs,
+    select_samples,
+    multianno_report,
+    collect_calr,
+
+
+def final_targets():
+    targets = [
+        MULTIANNO_REPORT,
+        QC_PLOTS,
+        MASTER,
+        CALR_TYPE1_RESULTS,
+        CALR_TYPE2_RESULTS,
+    ]
+    if config["denver"]["enabled"]:
+        targets += [MASTER_WITH_DENVER, DENVER_FILTERED]
+    if config["alert"]["enabled"]:
+        targets.append(rules.mutation_alert.output.sentinel)
+    return targets
+
+
+rule all:
+    input:
+        final_targets(),
+
+
+rule qc:
+    """Stage 1 only: linking, the QC report and the sample selection."""
+    input:
+        SAMPLES_FOR_PROCESSING,
+
+
+rule annotate:
+    """Through stage 2: the merged varscan annotation table."""
+    input:
+        MERGED_VARSCAN,
+        MULTIANNO_REPORT,
+
+
+rule mutations:
+    """Everything except the alert email: the filtering chain, CALR and Denver."""
+    input:
+        [t for t in final_targets() if not str(t).endswith(".sent")],
+
+
+rule calr:
+    """CALR Type-1 and Type-2 run-level results only."""
+    input:
+        CALR_TYPE1_RESULTS,
+        CALR_TYPE2_RESULTS,
+
+
+rule denver:
+    """Through the Denver normals cross-reference."""
+    input:
+        MASTER_WITH_DENVER,
+        DENVER_FILTERED,

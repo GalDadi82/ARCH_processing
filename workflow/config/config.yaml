@@ -1,0 +1,132 @@
+# Configuration for the ARCH processing Snakemake pipeline.
+# This replaces the parameters cell at the top of notebooks/arch_processing.ipynb.
+# Override any value on the command line with --config key=value, or point at a
+# different file with --configfile.
+
+# ---------------------------------------------------------------- run identity
+# Run name, used to name output files.
+seq_run: NovaseqR132
+# Panel: 'arch' or 'geno'. Also selects the analysis dir (analysis_arch / analysis_geno),
+# which utils/mip_run_statistics.py derives the same way.
+panel: arch
+runs_base_dir: /home/projects/shlush/shared/runs_analysis
+# Sub-directory of {runs_base_dir}/{seq_run} holding *_R{1,2}.fastq.gz for this run.
+fastq_subdir: fastq_PERIBLOOD
+
+# ------------------------------------------------------------------ QC / stats
+qc:
+  # Minimum estimated library size (used to decide if DNA re-extraction is needed).
+  min_lib_size: 70000
+  # Minimum per-base dedup coverage depth to consider a base as valid.
+  min_base_cov: 20
+  # Minimum fraction of valid bases to consider a sample as valid.
+  min_f_dedup_cov: 0.8
+  # Lower cutoff: samples above this are still processed, to get their info.
+  min_f_dedup_cov_to_process: 0.1
+  # Column holding the EXPERIMENT_PANEL_SAMPLE_INDEX sample name.
+  # See README section 2: if sample names are malformed, run `snakemake qc`, fix the
+  # merged statistics CSV by hand, then continue -- rebuild stays false so your edit stands.
+  sample_fixed_column: Sample
+  # Pass --rebuild to mip_run_statistics.py (discards the merged statistics CSV).
+  rebuild: false
+
+# --------------------------------------------------------------------- ANNOVAR
+annovar:
+  perl: /usr/bin/perl
+  table_annovar: /home/projects/shlush/shared/annovar/2022-08-02/table_annovar.pl
+  humandb: /home/projects/shlush/shared/annovar/humandb/
+  buildver: hg38
+  protocol: refGene,gnomad41_genome,kaviar_20150923,cosmic103_mapped,avsnp151,clinvar_20250721,dbnsfp47a
+  operation: g,f,f,f,f,f,f
+  # Environment module providing bcftools; set to "" to use bcftools already on PATH.
+  bcftools_module: BCFtools
+  # Per-sample varscan VCF basename, formatted with {sample}.
+  vcf_template: "{sample}.varscan_C8_AF0.001_Q15_norm.dedup.vcf.gz"
+  # Basename (no extension) of the ANNOVAR output written next to the VCF.
+  out_basename: varscan_annot_dedup_filt
+
+# ------------------------------------------------- Blood 2023 paper filtering
+# Arguments for utils/filter_mutations.py (Python port of Mutation_Curation/R/FilterMutations.R).
+filter_mutations:
+  # Produces FilterMutations_{seq_run}_{run_suffix}_listed.tsv and
+  # FilterMutations_{seq_run}_{run_suffix}_filtered_yet_not_listed.tsv.
+  run_suffix: arch_py
+  sample_column: Sample_Name
+  dups_input_file: false
+
+# ---------------------------------------------------- downstream output naming
+# Suffix for the post-Blood-2023 output files (kept distinct from filter_mutations.run_suffix
+# to preserve the file names the notebook produced).
+output_suffix: arch
+
+# ------------------------------------------------------- recurrence filtering
+# Remove recurrent mutations (>=2 samples) that lack haematopoietic COSMIC / ClinVar
+# support. Off by default: the COSMIC annotation is sparse (only ~1% of indels carry
+# any), so the step also removes curated hotspots. When false the step is skipped and
+# "_FilteredRecurrent" drops out of the downstream file names, so the filtered and
+# unfiltered variants of a run can coexist on disk.
+filter_recurrent_without_support: false
+# Mutations to always keep regardless of the recurrence criteria. Each entry may use any
+# subset of CHR/POS/REF/ALT/Gene.refGene/Selected.AA.change, e.g.
+#   - {Gene.refGene: ASXL1, Selected.AA.change: G642fs}
+force_include_variants: []
+
+# --------------------------------------------------------------- VAF filtering
+# Final VAF threshold.
+min_final_vaf: 0.05
+# Per-gene VAF threshold overrides; genes not listed use min_final_vaf.
+gene_min_vaf_overrides:
+  BRAF: 0.01
+# Known artefact / germline calls to drop, matched on exclusion_keys.
+exclusion_keys: [Gene.refGene, POS, REF, ALT]
+excluded_mutations:
+  - {Gene.refGene: STAG2,  POS: 124066174, REF: "G", ALT: "C"}
+  - {Gene.refGene: STAG2,  POS: 124050219, REF: "-", ALT: "A"}
+  - {Gene.refGene: PHF6,   POS: 134378011, REF: "-", ALT: "G"}
+  - {Gene.refGene: PHF6,   POS: 134378017, REF: "-", ALT: "C"}
+  - {Gene.refGene: BCORL1, POS: 130015631, REF: "-", ALT: "G"}
+  - {Gene.refGene: BCORL1, POS: 130015637, REF: "C", ALT: "-"}
+  - {Gene.refGene: BCORL1, POS: 130015640, REF: "C", ALT: "-"}
+  - {Gene.refGene: BCORL1, POS: 130015640, REF: "-", ALT: "A"}
+  - {Gene.refGene: WT1,    POS: 32434878,  REF: "-", ALT: "T"}
+  - {Gene.refGene: WT1,    POS: 32434880,  REF: "A", ALT: "-"}
+  - {Gene.refGene: WT1,    POS: 32434890,  REF: "G", ALT: "-"}
+
+# ------------------------------------------------------------------------ CALR
+calr:
+  # Only samples whose name matches this regex get CALR calls (as in the util scripts).
+  sample_pattern: ARCH
+  type1:
+    seed_wt: GCAGCAGAGAAACAAATGAAGGACAAACAGGACGAGGAGCAGAGGCTTAAGGAGGAGGAAGAAGACAAGAAACGCAAAGAGGAGGAGGAGGCAGAGGACAAGGAGGAAGATGAGGACAAAGATGAGGATGAGGAGGATGAGGAGGACAAGG
+    del_len: 52
+    left_len: 12
+    right_len: 12
+    wt_tol: 6
+    min_readlen: 50
+  type2:
+    # BAM shows chr19 reads around 12943711 (not 13054550); window is 1-based.
+    chrom: chr19
+    win_start: 12943000
+    win_end: 12945000
+    ins_len: 5
+    motif_fwd: TTGTC
+    motif_rev: GACAA  # reverse complement of motif_fwd
+    min_mapq: 0
+    skip_dup: false
+
+# ---------------------------------------------------------------------- Denver
+denver:
+  # Set to false to stop after the VAF-filtered master table (the alert then reads it
+  # instead of the Denver-filtered table).
+  enabled: true
+  base_dir: /home/projects/shlush/shared/runs_analysis/NovaseqR99/embedded_demultiplexing/Analysis
+  # Paths are resolved relative to the repo root when not absolute.
+  filtered_snvs: notebooks/denver/out/Poisson_annotated_merged_POOLED_RESTART_180826_filtered_SNVs.tsv
+  filtered_indels: notebooks/denver/out/filtering_Indels_annotated_varscan_filtered.tsv
+
+# ----------------------------------------------------------------- email alert
+alert:
+  # The default `snakemake` run ends by sending this email (matching the notebook).
+  # Set to false -- or run `snakemake mutations` -- to stop before it.
+  enabled: true
+  config: utils/mutation_alert_config.yaml

@@ -1,0 +1,38 @@
+# LSF profile: one cluster job per rule instance.
+#
+# Requires snakemake >= 8 plus snakemake-executor-plugin-lsf (see workflow/envs/arch.yaml).
+# Run with:
+#   snakemake --profile workflow/profiles/lsf
+#
+# On snakemake 7 use the generic cluster syntax instead:
+#   snakemake -j 50 --cluster "bsub -q short -M {resources.mem_mb} \
+#       -R rusage[mem={resources.mem_mb}] -o {log}.bsub.out -e {log}.bsub.err" \
+#       --latency-wait 60
+
+executor: lsf
+jobs: 50
+latency-wait: 60
+keep-going: true
+rerun-incomplete: true
+printshellcmds: true
+
+default-resources:
+  lsf_queue: short
+  mem_mb: 4000
+  runtime: 120
+
+# The merge and filtering steps hold the whole mutation table in memory; the ANNOVAR and
+# CALR rules set their own resources in the rule definitions.
+set-resources:
+  merge_formatted:
+    mem_mb: 16000
+  blood2023_filter:
+    mem_mb: 16000
+    runtime: 240
+  denver_query:
+    mem_mb: 16000
+    runtime: 240
+
+# The cheap bookkeeping rules stay on the submit host rather than paying queue latency;
+# they are declared with the `localrules:` directive in the Snakefile, because snakemake 8
+# does not accept localrules as a profile setting.

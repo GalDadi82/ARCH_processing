@@ -1,0 +1,177 @@
+CHROM	POS	REF	ALT	class	match	n_samples	n_files	matched_pos	matched_ref	matched_alt	n_alleles_at_locus	alleles_at_locus
+17	31155981	A	-	deletion	normalized	5	5	31155980	CA	C	0	
+19	33301849	GGC	-	deletion	normalized	619	291	33301848	GGGC	G	0	
+2	25245273	CTCCAACGAAGAGGGG	-	deletion	position	0	0				13	25245280:G>A(17/16);25245275:C>A(2/2);25245276:C>A(2/1);25245279:C>A(2/2);25245282:AGAGGGG>A(2/1);25245284:A>G(2/2);25245276:C>T(1/1);25245278:A>C(1/1);+5 more
+4	105236895	C	-	deletion	none	0	0				0	
+17	60663365	-	C	insertion	normalized	12	8	60663365	G	GC	0	
+13	32770750	A	-	deletion	normalized	117	94	32770749	CA	C	0	
+17	60663237	T	-	deletion	position	0	0				3	60663237:T>C(3/3);60663236:C>A(1/1);60663237:T>A(1/1)
+2	25243935	G	-	deletion	position	0	0				1	25243934:T>A(1/1)
+8	116857388	AGA	-	deletion	position	0	0				1	116857387:T>G(1/1)
+17	60663155	T	-	deletion	none	0	0				0	
+13	32770749	-	A	insertion	normalized	81	67	32770749	C	CA	0	
+X	15823108	AGCCGG	-	deletion	normalized	27	24	15823107	CAGCCGG	C	0	
+4	105275143	CAG	-	deletion	normalized	51	44	105275142	CCAG	C	0	
+20	32434638	-	G	insertion	normalized	492	255	32434638	A	AG	0	
+2	25246019	C	-	deletion	position	0	0				1	25246019:C>T(2/2)
+17	60663329	CAAAC	-	deletion	position	0	0				6	60663328:A>G(4/3);60663329:CA>C(2/1);60663333:CT>C(2/1);60663328:A>C(1/1);60663329:C>A(1/1);60663332:AC>A(1/1)
+20	32434639	G	-	deletion	normalized	443	246	32434638	AG	A	0	
+2	25240324	CT	-	deletion	position	0	0				1	25240324:C>A(2/2)
+2	25245284	-	G	insertion	position	0	0				3	25245284:A>G(2/2);25245284:AG>A(1/1);25245285:G>T(1/1)
+17	7670681	T	-	deletion	none	0	0				0	
+20	32435035	T	-	deletion	normalized	5	4	32435034	AT	A	0	
+2	25240723	T	-	deletion	none	0	0				0	
+2	25247711	C	-	deletion	position	0	0				3	25247710:T>A(2/1);25247710:T>C(1/1);25247710:T>TC(1/1)
+17	60663263	A	-	deletion	normalized	188	143	60663262	CA	C	0	
+2	25234377	TCATG	-	deletion	position	0	0				8	25234377:T>G(3/3);25234379:A>G(3/3);25234380:T>C(3/3);25234381:G>T(3/3);25234378:C>G(2/1);25234376:C>A(1/1);25234376:C>T(1/1);25234380:T>G(1/1)
+4	105234621	-	A	insertion	normalized	9	8	105234621	G	GA	0	
+5	177515944	-	CATC	insertion	position	0	0				1	177515945:C>G(3/3)
+2	25247061	T	-	deletion	none	0	0				0	
+4	105234764	C	-	deletion	none	0	0				0	
+2	25248122	GTGGGGGATGCGG	-	deletion	position	0	0				10	25248133:G>A(168/102);25248132:C>T(61/54);25248127:G>A(6/5);25248123:TG>T(3/2);25248121:AGTGG>A(2/1);25248127:G>T(2/2);25248128:G>GA(2/1);25248122:G>GT(1/1);+2 more
+2	25241692	T	-	deletion	none	0	0				0	
+4	105275234	CA	-	deletion	position	0	0				2	105275234:C>T(2/1);105275233:C>A(1/1)
+2	25240704	CAGATCG	-	deletion	position	0	0				6	25240709:C>A(4/2);25240709:C>T(3/3);25240705:A>T(2/2);25240707:A>C(1/1);25240708:T>A(1/1);25240710:G>A(1/1)
+2	25247693	G	-	deletion	position	0	0				2	25247692:A>G(1/1);25247693:GGA>G(1/1)
+2	25246219	-	T	insertion	none	0	0				0	
+4	105236189	AATAAAG	-	deletion	position	0	0				1	105236192:A>G(1/1)
+17	60663122	GT	-	deletion	none	0	0				0	
+2	25247636	T	-	deletion	none	0	0				0	
+4	105234352	G	-	deletion	position	0	0				1	105234351:A>G(1/1)
+20	32435009	C	-	deletion	none	0	0				0	
+X	15803752	AAGGAA	-	deletion	position	0	0				5	15803757:A>G(3/3);15803751:G>A(1/1);15803752:A>G(1/1);15803755:G>A(1/1);15803756:A>G(1/1)
+4	105236486	T	-	deletion	none	0	0				0	
+4	105272889	A	-	deletion	normalized	2	2	105272888	GA	G	0	
+X	15803783	AAG	-	deletion	normalized	7	6	15803782	CAAG	C	0	
+8	116863224	-	A	insertion	position	0	0				1	116863224:T>C(1/1)
+17	60663334	T	-	deletion	normalized	2	1	60663333	CT	C	0	
+X	45063607	-	T	insertion	position	0	0				1	45063607:CT>C(2/2)
+4	105234246	TC	-	deletion	none	0	0				0	
+4	105275599	G	-	deletion	position	0	0				1	105275598:T>C(1/1)
+4	105276061	-	A	insertion	position	0	0				1	105276061:G>A(30/26)
+4	105275534	TCCATACACTTTACCAGCCAAGG	-	deletion	position	0	0				8	105275538:T>C(1/1);105275545:T>C(1/1);105275546:A>C(1/1);105275547:C>A(1/1);105275548:C>T(1/1);105275548:CA>C(1/1);105275549:A>G(1/1);105275550:G>T(1/1)
+2	25244223	G	-	deletion	position	0	0				1	25244222:A>C(1/1)
+2	25240436	GCCGGCCAGT	-	deletion	position	0	0				9	25240438:C>T(8/7);25240439:G>A(7/5);25240443:A>G(3/3);25240443:A>C(2/2);25240435:A>T(1/1);25240437:C>A(1/1);25240438:CG>C(1/1);25240440:GC>G(1/1);+1 more
+4	105236227	-	C	insertion	normalized	8	5	105236227	A	AC	0	
+2	25235823	G	-	deletion	normalized	3	2	25235822	TG	T	0	
+2	25248124	G	-	deletion	normalized	3	2	25248123	TG	T	0	
+2	25240429	AAG	-	deletion	normalized	4	3	25240428	AAAG	A	0	
+2	25247122	A	-	deletion	normalized	2	2	25247121	CA	C	0	
+4	105276069	-	T	insertion	position	0	0				1	105276070:T>C(1/1)
+2	25247701	CCCG	-	deletion	position	0	0				4	25247703:C>T(9/9);25247701:C>T(1/1);25247702:C>T(1/1);25247704:G>A(1/1)
+19	33301826	GCGGGT	-	deletion	normalized	93	77	33301825	GGCGGGT	G	0	
+2	25246717	G	-	deletion	none	0	0				0	
+19	33302347	G	-	deletion	normalized	62	57	33302346	CG	C	0	
+4	105235648	C	-	deletion	none	0	0				0	
+2	25244272	T	-	deletion	none	0	0				0	
+17	60663182	-	T	insertion	position	0	0				2	60663182:CT>C(5/4);60663183:T>G(1/1)
+2	25244616	C	-	deletion	none	0	0				0	
+4	105236706	-	A	insertion	none	0	0				0	
+2	25235790	-	T	insertion	normalized	1	1	25235790	G	GT	0	
+4	105236176	A	-	deletion	none	0	0				0	
+17	31226459	-	C	insertion	normalized	31	25	31226459	A	AC	0	
+4	105235380	C	-	deletion	position	0	0				1	105235379:G>T(1/1)
+19	12943872	GAG	-	deletion	normalized	2	1	12943871	TGAG	T	0	
+4	105276172	A	-	deletion	position	0	0				1	105276172:A>G(2/2)
+X	130025057	AGA	-	deletion	normalized	2	2	130025056	CAGA	C	0	
+19	12943851	GAG	-	deletion	position	0	0				2	12943850:T>G(15/14);12943852:A>G(1/1)
+X	155090834	T	-	deletion	position	0	0				2	155090833:G>A(2/1);155090834:T>G(1/1)
+20	32433437	-	C	insertion	none	0	0				0	
+17	60663161	A	-	deletion	normalized	4	3	60663160	GA	G	0	
+21	34892938	AGA	-	deletion	position	0	0				1	34892937:T>G(2/2)
+X	45110208	AA	-	deletion	position	0	0				1	45110209:A>G(1/1)
+17	60663387	ACGAA	-	deletion	position	0	0				11	60663388:C>T(102/84);60663391:A>G(30/30);60663389:G>A(9/9);60663390:A>G(9/9);60663389:G>T(7/7);60663388:C>A(3/3);60663386:G>T(2/2);60663387:A>G(2/2);+3 more
+4	105237030	C	-	deletion	position	0	0				2	105237030:C>T(6/5);105237030:C>A(2/2)
+2	25239180	T	-	deletion	position	0	0				3	25239179:C>A(1/1);25239179:C>T(1/1);25239180:T>C(1/1)
+X	15822892	A	-	deletion	none	0	0				0	
+X	15804189	-	A	insertion	none	0	0				0	
+4	105243592	A	-	deletion	position	0	0				1	105243592:A>C(1/1)
+X	130025077	C	-	deletion	none	0	0				0	
+4	105241340	G	-	deletion	none	0	0				0	
+20	32434600	CACCACTGCCATAGAGAGGCGGC	-	deletion	normalized	6	5	32434599	TCACCACTGCCATAGAGAGGCGGC	T	0	
+2	25234304	AGCGG	-	deletion	position	0	0				9	25234307:G>A(30/22);25234308:G>T(10/9);25234306:C>T(6/6);25234308:G>A(4/3);25234308:G>C(3/3);25234304:A>C(2/1);25234307:G>T(2/2);25234303:C>A(1/1);+1 more
+20	32435243	C	-	deletion	none	0	0				0	
+13	32770441	-	A	insertion	normalized	191	130	32770441	C	CA	0	
+2	25235737	T	-	deletion	normalized	2	1	25235736	CT	C	0	
+4	105272692	-	A	insertion	normalized	2	2	105272692	G	GA	0	
+X	40053926	G	-	deletion	normalized	6	6	40053925	AG	A	0	
+4	105236024	-	A	insertion	position	0	0				1	105236024:TA>T(1/1)
+2	25240367	AGA	-	deletion	normalized	1	1	25240366	CAGA	C	0	
+4	105234537	T	-	deletion	none	0	0				0	
+X	124030996	G	-	deletion	none	0	0				0	
+2	25246215	C	-	deletion	normalized	1	1	25246214	TC	T	0	
+4	105272578	T	-	deletion	position	0	0				2	105272577:C>A(1/1);105272578:T>C(1/1)
+4	105236676	GC	-	deletion	position	0	0				1	105236675:T>C(37/35)
+2	25246660	-	C	insertion	none	0	0				0	
+X	124051395	-	T	insertion	none	0	0				0	
+4	105235765	-	T	insertion	position	0	0				1	105235766:T>G(1/1)
+2	25245329	-	T	insertion	none	0	0				0	
+4	105275779	C	-	deletion	position	0	0				1	105275778:T>C(1/1)
+20	32435119	CAAGGACCCA	-	deletion	position	0	0				1	32435119:C>A(3/3)
+17	60663040	-	TACC	insertion	none	0	0				0	
+2	25240315	GA	-	deletion	position	0	0				6	25240314:C>G(20/17);25240315:G>A(5/4);25240314:C>T(2/2);25240315:G>C(2/2);25240315:G>T(2/2);25240314:C>A(1/1)
+2	25246660	GC	-	deletion	none	0	0				0	
+19	33302102	CGC	-	deletion	normalized	101	87	33302101	TCGC	T	0	
+X	45089810	C	-	deletion	normalized	1	1	45089809	TC	T	0	
+2	25245304	-	T	insertion	position	0	0				2	25245305:T>C(11/10);25245304:A>G(1/1)
+7	148828797	CAT	-	deletion	normalized	17	14	148828796	CCAT	C	0	
+20	32435007	-	T	insertion	none	0	0				0	
+4	105236179	A	-	deletion	normalized	1	1	105236178	CA	C	0	
+17	60663291	C	-	deletion	normalized	3	3	60663290	GC	G	0	
+2	25234345	CC	-	deletion	position	0	0				4	25234346:C>T(15/15);25234345:C>A(2/2);25234344:A>G(1/1);25234345:C>T(1/1)
+17	60663307	-	A	insertion	position	0	0				3	60663307:GAA>G(2/1);60663307:G>A(1/1);60663307:GA>G(1/1)
+2	25235824	A	-	deletion	position	0	0				2	25235823:G>C(1/1);25235823:G>T(1/1)
+2	25247673	A	-	deletion	none	0	0				0	
+4	105272811	A	-	deletion	position	0	0				1	105272811:A>G(1/1)
+2	25247619	-	T	insertion	none	0	0				0	
+X	155077218	C	-	deletion	position	0	0				1	155077218:C>T(1/1)
+2	25248188	T	-	deletion	position	0	0				5	25248188:TC>T(20/19);25248187:C>A(2/2);25248188:T>C(2/2);25248187:C>T(1/1);25248188:T>G(1/1)
+4	105237124	CAGT	-	deletion	position	0	0				2	105237125:A>G(1/1);105237127:T>C(1/1)
+2	25241701	AGG	-	deletion	position	0	0				1	25241701:AG>A(1/1)
+4	105243694	T	-	deletion	position	0	0				1	105243694:T>C(1/1)
+4	105243632	CACCT	-	deletion	position	0	0				7	105243633:A>G(3/3);105243631:A>G(2/2);105243635:C>A(2/2);105243636:T>A(2/1);105243636:T>C(2/2);105243632:C>T(1/1);105243634:C>T(1/1)
+20	32435606	GAG	-	deletion	normalized	4	2	32435605	CGAG	C	0	
+2	25248229	A	-	deletion	position	0	0				1	25248229:A>G(1/1)
+X	15823001	G	-	deletion	position	0	0				1	15823000:A>G(2/2)
+4	105236362	A	-	deletion	position	0	0				2	105236361:G>T(1/1);105236362:A>G(1/1)
+2	25247119	T	-	deletion	position	0	0				1	25247118:C>T(3/2)
+2	25246661	C	-	deletion	none	0	0				0	
+20	32434637	-	A	insertion	position	0	0				6	32434638:A>AG(492/255);32434638:AG>A(443/246);32434637:G>C(3/2);32434638:AGG>A(2/1);32434638:A>AGG(1/1);32434638:A>G(1/1)
+2	25240427	-	A	insertion	normalized	1	1	25240427	C	CA	0	
+4	105237208	A	-	deletion	position	0	0				1	105237207:G>T(1/1)
+4	105272677	GG	-	deletion	position	0	0				1	105272676:T>A(1/1)
+4	105235078	CTTA	-	deletion	position	0	0				1	105235077:G>T(1/1)
+2	25247042	GACACTCACCT	-	deletion	position	0	0				2	25247044:C>T(5023/406);25247050:C>T(7/5)
+2	25235726	-	T	insertion	position	0	0				2	25235726:A>G(27/21);25235727:T>G(2/2)
+21	34799383	AGA	-	deletion	normalized	2	1	34799382	CAGA	C	0	
+2	25247597	G	-	deletion	position	0	0				1	25247596:AGAATTTGCCGTCTCC>A(1/1)
+2	25244331	A	-	deletion	none	0	0				0	
+4	105237337	-	T	insertion	none	0	0				0	
+15	90088685	-	C	insertion	position	0	0				3	90088685:TC>T(3/3);90088685:T>C(1/1);90088686:C>T(1/1)
+20	32434713	TGG	-	deletion	position	0	0				4	32434715:G>A(2/2);32434715:G>T(2/2);32434712:A>G(1/1);32434714:G>A(1/1)
+2	25240431	-	T	insertion	position	0	0				1	25240431:G>C(3/2)
+17	31232881	G	-	deletion	position	0	0				1	31232880:A>G(5/5)
+13	32770148	A	-	deletion	normalized	85	68	32770147	GA	G	0	
+4	105275526	A	-	deletion	position	0	0				1	105275525:T>A(1/1)
+X	15823091	GCAGCCGGGGCCGGG	-	deletion	position	0	0				11	15823099:G>A(9/9);15823092:C>G(6/6);15823097:G>A(4/3);15823104:GGGC>G(4/4);15823091:G>A(3/3);15823103:G>A(3/3);15823105:G>A(3/3);15823090:C>T(2/2);+3 more
+4	105235257	AA	-	deletion	position	0	0				4	105235256:CA>C(15/14);105235257:A>G(6/6);105235256:C>A(1/1);105235257:A>T(1/1)
+2	25241654	-	CGAGG	insertion	position	0	0				3	25241655:C>T(6/6);25241654:C>A(3/2);25241654:CCG>C(1/1)
+17	60663458	-	T	insertion	none	0	0				0	
+4	105235394	-	GTGAACAG	insertion	none	0	0				0	
+4	105243736	AATACGGCACGCTCACC	-	deletion	position	0	0				10	105243739:AC>A(4/2);105243746:G>A(4/4);105243741:G>A(3/3);105243738:T>TA(2/2);105243752:CA>C(2/1);105243735:A>G(1/1);105243740:C>T(1/1);105243745:C>A(1/1);+2 more
+X	155071542	GGTGCAGGC	-	deletion	normalized	5	3	155071541	TGGTGCAGGC	T	0	
+4	105276194	C	-	deletion	none	0	0				0	
+20	32435630	-	T	insertion	none	0	0				0	
+4	105235482	CAT	-	deletion	position	0	0				1	105235481:G>T(2/2)
+X	15823072	AGGGACCGCAGC	-	deletion	position	0	0				6	15823079:G>A(4/4);15823076:A>G(3/3);15823072:A>G(1/1);15823074:G>A(1/1);15823081:A>C(1/1);15823081:A>G(1/1)
+20	32434744	-	G	insertion	normalized	2	2	32434744	A	AG	0	
+4	105236199	-	TT	insertion	none	0	0				0	
+4	105235901	C	-	deletion	normalized	2	1	105235900	TC	T	0	
+4	105275051	T	-	deletion	normalized	4	4	105275050	CT	C	0	
+20	32433354	TT	-	deletion	position	0	0				1	32433353:C>A(1/1)
+4	105234110	T	-	deletion	none	0	0				0	
+4	105234909	C	-	deletion	position	0	0				1	105234909:C>T(1/1)
+4	105235512	G	-	deletion	none	0	0				0	
+4	105243663	A	-	deletion	position	0	0				1	105243662:C>A(1/1)
+2	25239198	A	-	deletion	position	0	0				1	25239198:A>G(2/2)
+X	134425241	GAA	-	deletion	normalized	1	1	134425240	TGAA	T	0	

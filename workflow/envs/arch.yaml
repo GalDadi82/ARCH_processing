@@ -1,0 +1,24 @@
+# Environment for running the ARCH Snakemake pipeline.
+#   conda env create -f workflow/envs/arch.yaml
+#   conda activate arch_snakemake
+#
+# ANNOVAR, perl and the Denver variant index are used from their shared paths on the
+# cluster (see workflow/config/config.yaml), so they are not listed here.
+name: arch_snakemake
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python >=3.10
+  - snakemake >=8.0
+  - snakemake-executor-plugin-lsf
+  - pandas
+  - numpy
+  - pyyaml
+  - matplotlib-base
+  - seaborn
+  - openpyxl      # multianno_file_report.xlsx, and the statistics .xlsx inputs
+  - xlsxwriter
+  - tqdm
+  - pysam         # utils/CALR_type2_from_bam.py
+  - bcftools      # only needed if the BCFtools environment module is unavailable
