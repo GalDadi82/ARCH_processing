@@ -47,7 +47,7 @@ rule calr_type2:
     output:
         tsv=os.path.join(CALR_DIR, "{sample}_CALR_type2.tsv"),
     params:
-        script=os.path.join(UTILS_DIR, "CALR_type2_from_bam.py"),
+        script=os.path.join(UTILS_DIR, "CALR_type_2_analysis.py"),
         bam=lambda w: pick_bam(w.sample),
         chrom=config["calr"]["type2"]["chrom"],
         win_start=config["calr"]["type2"]["win_start"],

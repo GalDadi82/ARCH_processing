@@ -150,9 +150,9 @@ Two scripts detect the two known CALR ARCH-relevant mutation types. Both queue o
 - *utils/CALR_type1_from_fastq.py* — detects the CALR Type-1 52bp deletion (del52) directly from FASTQ, by matching junction/breakpoint motifs built from a seed WT sequence.
   Submit: `python CALR_type1_from_fastq.py --submit --fastq_dir /path/to/fastqs` (filters samples via `--sample_pattern`, default `ARCH`).
   Per-sample output: *calr_results/{sample}_CALR.tsv* (`WT_count`, `DEL52_count`, `VAF_DEL52`, ...).
-- *utils/CALR_type2_from_bam.py* — detects the CALR Type-2 5bp insertion (ins5) from BAM alignments, scanning a fixed chr19 pileup window for a CIGAR insertion matching a known motif, and reporting the most-supported breakpoint position.
-  Submit: `python CALR_type2_from_bam.py --bam_dir /path/to/samples` (same `--sample_pattern` filtering).
-  Per-sample output: *calr_results/{sample}_CALR_type2.tsv* (`CHR`, `POS`, `POS_frac`, `INS5_count`, `VAF_INS5`, ...).
+- *utils/CALR_type_2_analysis.py* — detects the CALR Type-2 5bp insertion (ins5) from BAM alignments: VAF = reads with the motif insertion at the type-2 site / reads covering that site (hg38/hg19 detected per BAM), and reporting the most-supported breakpoint position.
+  Submit: `python CALR_type_2_analysis.py --bam_dir /path/to/samples` (same `--sample_pattern` filtering).
+  Per-sample output: *calr_results/{sample}_CALR_type2.tsv* (`CHR`, `POS`, `POS_frac`, `depth_at_site`, `INS5_count`, `VAF_INS5`, ...).
 
 Merge either script's per-sample outputs with e.g.:
 `awk '(NR==1)||(FNR>1)' calr_results/*_CALR.tsv > CALR_type1_fromFASTQ_merged.tsv`

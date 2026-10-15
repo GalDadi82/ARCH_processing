@@ -20,5 +20,5 @@ dependencies:
   - openpyxl      # multianno_file_report.xlsx, and the statistics .xlsx inputs
   - xlsxwriter
   - tqdm
-  - pysam         # utils/CALR_type2_from_bam.py
+  - pysam         # utils/CALR_type_2_analysis.py
   - bcftools      # only needed if the BCFtools environment module is unavailable

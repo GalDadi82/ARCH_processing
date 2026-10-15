@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
-CALR Type-2 (ins5) detector — BAM-based, pileup window approach.
-- Scans each sample BAM for 5 bp insertions matching a known motif.
+CALR Type-2 (c.1154_1155insTTGTC) detector — BAM-based.
+- VAF = reads with the 5 bp motif insertion at the type-2 site / reads covering the site
+  (hg38 19:12943813|12943814, hg19 19:13054627|13054628; build detected from the BAM's chr19 length).
 - Default: submits one LSF job per sample (parallel).
 - Worker mode: processes a single sample on the compute node.
 
 Submit mode (default — queues one LSF job per sample):
-  python CALR_type2_from_bam.py --bam_dir /path/to/samples
+  python CALR_type_2_analysis.py --bam_dir /path/to/samples
 
 Worker mode (called automatically by each LSF job):
-  python CALR_type2_from_bam.py --sample_name SAMPLE --bam_path /path/to/sample.bam --out out.tsv
+  python CALR_type_2_analysis.py --sample_name SAMPLE --bam_path /path/to/sample.bam --out out.tsv
 
 Merge results once all jobs finish:
   awk '(NR==1)||(FNR>1)' calr_results/*_CALR_type2.tsv > CALR_type2_ins5_fromBAM_merged.tsv
@@ -31,10 +32,18 @@ except ImportError:
 DEFAULT_BAM_DIR   = "/home/projects/shlush/shared/runs_analysis/MiseqR3/analysis/3_alignment_to_annotation_bwa"
 DEFAULT_OUT_TSV   = "CALR_type2_ins5_fromBAM.tsv"
 
-# IMPORTANT: BAM shows chr19 reads around 12943711 (not 13054550)
 DEFAULT_CHROM     = "chr19"
+# window is reported for reference (depth_window); VAF uses only reads covering the site
 DEFAULT_WIN_START = 12943000   # 1-based
 DEFAULT_WIN_END   = 12945000   # 1-based
+
+# 1-based reference base after which the insertion sits, by genome build (keyed by chr19 length)
+INS_SITE_BY_CHR19_LEN = {
+    58617616: 12943813,  # hg38 / GRCh38
+    59128983: 13054627,  # hg19 / GRCh37
+}
+DEFAULT_INS_SITE  = 12943813   # used if the chr19 length is not recognised
+ANCHOR_TOL        = 1          # accept the insertion anchored this many bp from the site
 
 DEFAULT_INS_LEN   = 5
 DEFAULT_MOTIF_FWD = "TTGTC"
@@ -57,6 +66,13 @@ def read_overlaps_window(read, start0, end0):
     if read.reference_start is None or read.reference_end is None:
         return False
     return not (read.reference_end <= start0 or read.reference_start >= end0)
+
+
+def covers_site(read, site):
+    """Read spans the insertion junction: aligned to both site and site+1 (1-based)."""
+    if read.reference_start is None or read.reference_end is None:
+        return False
+    return read.reference_start <= site - 1 and read.reference_end >= site + 1
 
 
 def has_type2_insertion(
@@ -142,6 +158,7 @@ def count_type2_in_bam(
     s0 = win_start - 1
     e0 = win_end
 
+    depth_window = 0
     depth = 0
     ins5 = 0
     ins_positions = []
@@ -151,9 +168,10 @@ def count_type2_in_bam(
         if chrom_used is None:
             raise ValueError(f"Contig not found in BAM: {chrom} (available: {bam.references[:5]})")
 
-        ncheck = sum(1 for _ in zip(range(5), bam.fetch(chrom_used, s0, e0)))
-        if ncheck == 0:
-            sys.stderr.write(f"WARNING: no reads in window for {os.path.basename(bam_path)} at {chrom_used}:{win_start}-{win_end}\n")
+        site = INS_SITE_BY_CHR19_LEN.get(bam.get_reference_length(chrom_used), DEFAULT_INS_SITE)
+        if not (win_start <= site <= win_end):
+            # window given for another build: report the window around the detected site instead
+            s0, e0 = site - (DEFAULT_INS_SITE - DEFAULT_WIN_START) - 1, site + (DEFAULT_WIN_END - DEFAULT_INS_SITE)
 
         for read in bam.fetch(chrom_used, s0, e0):
             if read.is_unmapped or read.is_secondary or read.is_supplementary:
@@ -165,11 +183,18 @@ def count_type2_in_bam(
             if not read_overlaps_window(read, s0, e0):
                 continue
 
+            depth_window += 1
+            if not covers_site(read, site):
+                continue
+
             depth += 1
             pos = has_type2_insertion(read, ins_len, motif_fwd, motif_rev)
-            if pos is not None:
+            if pos is not None and abs(pos - site) <= ANCHOR_TOL:
                 ins5 += 1
                 ins_positions.append(pos)
+
+        if depth == 0:
+            sys.stderr.write(f"WARNING: no reads cover the type-2 site in {os.path.basename(bam_path)} at {chrom_used}:{site}\n")
 
     wt = max(0, depth - ins5)
     vaf = ins5 / depth if depth > 0 else 0.0
@@ -181,7 +206,8 @@ def count_type2_in_bam(
     else:
         ins_pos, pos_frac = None, 0.0
 
-    return chrom_used, depth, ins5, wt, round(vaf, 6), ins_pos, round(pos_frac, 6)
+    return (chrom_used, depth, ins5, wt, round(vaf, 6), ins_pos, round(pos_frac, 6),
+            site, depth_window, s0 + 1, e0)
 
 
 def submit_jobs(
@@ -279,7 +305,7 @@ def run_worker(
 ):
     """Worker mode: process a single sample BAM on the compute node."""
     try:
-        chrom_used, depth, ins5, wt, vaf, ins_pos, pos_frac = count_type2_in_bam(
+        chrom_used, depth, ins5, wt, vaf, ins_pos, pos_frac, site, depth_window, w_start, w_end = count_type2_in_bam(
             bam_path,
             chrom=chrom,
             win_start=win_start,
@@ -298,14 +324,16 @@ def run_worker(
             "POS_frac":    pos_frac,
             "Gene.refGene": "CALR",
             "Selected.AA.change": "Type-2 (ins5)",
-            "window_start_1based": win_start,
-            "window_end_1based":   win_end,
-            "depth_window":        depth,
+            "window_start_1based": w_start,
+            "window_end_1based":   w_end,
+            "depth_window":        depth_window,
+            "ins_site_1based":     site,
+            "depth_at_site":       depth,
             "INS5_count":          ins5,
             "WT_count":            wt,
             "VAF_INS5":            vaf,
-            "avg_VAF":             vaf,  # same as VAF_INS5 for single window
-            "status":              "OK" if depth > 0 else "ZERO_DEPTH_WINDOW_WRONG",
+            "avg_VAF":             vaf,  # same as VAF_INS5 for a single site
+            "status":              "OK" if depth > 0 else "ZERO_DEPTH_AT_SITE",
         }
     except Exception as e:
         sys.stderr.write(f"ERROR {sample}: {e}\n")
@@ -320,6 +348,8 @@ def run_worker(
             "window_start_1based": win_start,
             "window_end_1based":   win_end,
             "depth_window":        0,
+            "ins_site_1based":     "",
+            "depth_at_site":       0,
             "INS5_count":          0,
             "WT_count":            0,
             "VAF_INS5":            0.0,
@@ -330,7 +360,7 @@ def run_worker(
     df = pd.DataFrame([row], columns=[
         "Sample_Name", "bam_used", "CHR", "POS", "POS_frac", "Gene.refGene", "Selected.AA.change",
         "window_start_1based", "window_end_1based",
-        "depth_window", "INS5_count", "WT_count", "VAF_INS5", "avg_VAF", "status",
+        "depth_window", "ins_site_1based", "depth_at_site", "INS5_count", "WT_count", "VAF_INS5", "avg_VAF", "status",
     ])
     df.to_csv(out_tsv, sep="\t", index=False)
     sys.stderr.write(f"Finished {sample} -> {out_tsv}\n")
